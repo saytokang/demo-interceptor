@@ -7,3 +7,5 @@ HttpServletRequest request 에서
 
 ## 등록 interceptor
 * InterceptorConfig.java
+이 소스에서 중요 부문은 
+addInterceptors() 함수의 url pattern  설정이다. 

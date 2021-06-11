@@ -1,0 +1,9 @@
+GET http://localhost:8080/home
+Content-Type: application/json
+
+###
+
+GET http://localhost:8080/home/deny?org_id=1
+Content-Type: application/json
+
+###

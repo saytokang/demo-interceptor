@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.example.demointerceptor.service.AccessCheckService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import lombok.RequiredArgsConstructor;
@@ -30,8 +32,12 @@ public class AccessAuthorityInterceptor extends HandlerInterceptorAdapter {
             throws Exception {
         log.info("=== call preHandler =====");
         
-        // get token 
         String orgId = request.getParameter("org_id");
+
+        // org_id from http session
+        HttpSession session = request.getSession();
+        boolean hasOrgId = session.getAttribute("org_id")  != null && StringUtils.hasText(session.getAttribute("org_id").toString());
+        if (! hasOrgId) return false;
 
         boolean checkResult = accessCheckService.isAllow(orgId);
         if (checkResult) return true;
